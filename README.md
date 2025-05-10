@@ -38,3 +38,29 @@ POSIBLES HU
 4.QUE USUARIO PUEDA EXPORTAR LISTADO DE REGISTRO INGRESADO
 
 5.QUE SISTEMA ALERTE UNA CANTIDAD MAXIMA DE SOLICITUDES DE REGISTROS AL DIA
+
+#PROYECTO FINAL
+
+✅ HU1: Editar Movimiento
+Como usuario, quiero poder editar un movimiento existente desde la consola para corregir errores o actualizar datos financieros.
+
+Criterios de Aceptación:
+
+El sistema solicita el nombre del movimiento a editar.
+
+Si existe, permite modificar tipo, monto o descripción
+
+Se validan los datos igual que al registrar un movimiento.
+
+Se imprime en consola el nuevo estado del movimiento y el array actualizado.
+
+✅ HU2: Eliminar Movimiento
+Como usuario, quiero eliminar un movimiento específico por su nombre para mantener mi historial limpio y actualizado.
+
+Criterios de Aceptación:
+
+El sistema solicita el nombre del movimiento a eliminar.
+
+Si se encuentra, se elimina sin modificar directamente el array original (se crea un nuevo array sin ese movimiento).
+
+Se muestran en consola los movimientos restantes y los totales recalculados.
