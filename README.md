@@ -1,5 +1,7 @@
 # personal-budget
 
+# LABO05
+
 # Breve explicación de cómo funciona el programa.
 
 el programa funciona de una forma ordenada y controloda usando programacion imperativa, la logica
@@ -24,6 +26,8 @@ Diferencias entre imperativo y funcional.
 La programación imperativa se enfoca en cómo se realizan las tareas paso a paso.
 La programación funcional se enfoca en qué resultado se quiere obtener usando funciones puras y sin mutar datos.
 
+# LAB07
+
 # LAB08
 
 # Backlog
@@ -42,6 +46,7 @@ POSIBLES HU
 #PROYECTO FINAL
 
 ✅ HU1: Editar Movimiento
+
 Como usuario, quiero poder editar un movimiento existente desde la consola para corregir errores o actualizar datos financieros.
 
 Criterios de Aceptación:
@@ -55,6 +60,7 @@ Se validan los datos igual que al registrar un movimiento.
 Se imprime en consola el nuevo estado del movimiento y el array actualizado.
 
 ✅ HU2: Eliminar Movimiento
+
 Como usuario, quiero eliminar un movimiento específico por su nombre para mantener mi historial limpio y actualizado.
 
 Criterios de Aceptación:
