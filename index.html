@@ -2,12 +2,63 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Presupuesto Personal</title>
+    <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <h1>Presupuesto Personal</h1>
-    <div id="movimientos"></div>
+    <header>
+      <h1>Gestor de Presupuesto Personal</h1>
+    </header>
 
-    <script src="app.js"></script>
+    <main>
+      <section>
+        <h2>Registrar Movimiento</h2>
+        <form id="formMovimiento">
+          <select id="tipo" required>
+            <option value="">Selecciona tipo</option>
+            <option value="ingreso">Ingreso</option>
+            <option value="egreso">Egreso</option>
+          </select>
+          <input type="number" id="monto" placeholder="Monto" required />
+          <input
+            type="text"
+            id="descripcion"
+            placeholder="Descripción"
+            required
+          />
+          <button type="submit">Agregar</button>
+        </form>
+        <p id="mensajeConfirmacion"></p>
+      </section>
+
+      <section id="busqueda">
+        <h2>Buscar Movimiento</h2>
+        <input
+          type="text"
+          id="buscarDescripcion"
+          placeholder="Descripción del movimiento"
+        />
+        <button onclick="buscarMovimiento()">Buscar</button>
+        <p id="resultadoBusqueda"></p>
+      </section>
+
+      <section>
+        <h2>Movimientos Registrados</h2>
+        <div id="listaMovimientos"></div>
+      </section>
+
+      <section id="totales">
+        <p id="totalIngresos">Total Ingresos: $0</p>
+        <p id="totalEgresos">Total Egresos: $0</p>
+        <p id="saldo">Saldo Final: $0</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 - App Presupuesto</p>
+    </footer>
+
+    <script src="/js/app.js"></script>
   </body>
 </html>
