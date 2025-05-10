@@ -1,49 +1,65 @@
-let movimientos = [];
+// Array global de movimientos
+const movimientos = [];
 
+// 🟨 HU1: Función constructora con validación
+function Movimiento(tipo, monto, descripcion) {
+  if (tipo !== "ingreso" && tipo !== "egreso") {
+    throw new Error("Tipo inválido. Debe ser 'ingreso' o 'egreso'.");
+  }
+  if (isNaN(monto) || monto <= 0) {
+    throw new Error("El monto debe ser un número mayor que 0.");
+  }
+  if (!descripcion || descripcion.trim() === "") {
+    throw new Error("La descripción no puede estar vacía.");
+  }
+
+  this.tipo = tipo;
+  this.monto = monto;
+  this.descripcion = descripcion.trim();
+}
+
+// 🟦 HU3: Método de renderizado en el prototipo
+Movimiento.prototype.render = function () {
+  const contenedor = document.getElementById("movimientos");
+  const div = document.createElement("div");
+  div.innerHTML = `<strong>${this.tipo.toUpperCase()}</strong>: ${this.descripcion} - $${this.monto}`;
+  div.style.color = this.tipo === "ingreso" ? "green" : "red";
+  contenedor.appendChild(div);
+};
+
+// 🟩 HU2: Registro usando objetos Movimiento
 function registrarMovimiento() {
   while (true) {
-    let nombre = prompt("Ingrese el nombre del movimiento (o escriba 'salir' para terminar):");
-    if (nombre === null || nombre.toLowerCase() === "salir") break;
-    if (nombre.trim() === "") {
-      alert("El nombre no puede estar vacío.");
-      continue;
-    }
+    let descripcion = prompt("Ingrese el nombre del movimiento (o escriba 'salir'):");
+    if (descripcion === null || descripcion.toLowerCase() === "salir") break;
 
-    let tipo = prompt("Ingrese el tipo: Ingreso o Egreso").toLowerCase();
-    if (tipo !== "ingreso" && tipo !== "egreso") {
-      alert("El tipo debe ser 'Ingreso' o 'Egreso'.");
-      continue;
-    }
-
+    let tipo = prompt("Ingrese el tipo (ingreso o egreso):").toLowerCase();
     let monto = parseFloat(prompt("Ingrese el monto:"));
-    if (isNaN(monto) || monto <= 0) {
-      alert("El monto debe ser un número mayor a 0.");
-      continue;
+
+    try {
+      const mov = new Movimiento(tipo, monto, descripcion);
+      movimientos.push(mov);
+      mov.render(); // HU3: mostrar en DOM
+      alert("Movimiento registrado correctamente.");
+    } catch (error) {
+      alert(`Error: ${error.message}`);
     }
-
-    movimientos.push({
-      nombre: nombre.trim(),
-      tipo: tipo,
-      monto: monto
-    });
-
-    alert("Movimiento registrado exitosamente.");
   }
 }
 
-// Función pura que calcula el saldo total
-function calcularTotalSaldo(listaMovimientos) {
-  return listaMovimientos.reduce((total, mov) =>
-    mov.tipo === "ingreso" ? total + mov.monto : total - mov.monto, 0);
+// Función para calcular saldo total
+function calcularTotalSaldo(lista) {
+  return lista.reduce((acc, m) =>
+    m.tipo === "ingreso" ? acc + m.monto : acc - m.monto, 0);
 }
 
-// Función pura que genera un resumen general
-function mostrarResumen(listaMovimientos) {
+// Función para mostrar resumen
+function mostrarResumen(lista) {
   console.log("----- Resumen General -----");
-  console.log("Cantidad de movimientos:", listaMovimientos.length);
-  console.log("Saldo total:", calcularTotalSaldo(listaMovimientos));
+  console.log("Cantidad de movimientos:", lista.length);
+  console.log("Saldo total:", calcularTotalSaldo(lista));
 
-  let resumen = listaMovimientos.reduce((acc, mov) => {
+  const resumen = lista.reduce((acc, mov) => {
     acc[mov.tipo] = (acc[mov.tipo] || 0) + mov.monto;
     return acc;
   }, {});
@@ -54,43 +70,33 @@ function mostrarResumen(listaMovimientos) {
   });
 }
 
-// HU1: Listar nombres de movimientos (map)
-function listarNombres(listaMovimientos) {
-  const nombres = listaMovimientos.map(mov => mov.nombre);
-  console.log("----- Nombres de movimientos -----");
-  console.log(nombres);
+// Extra: Map, Filter, Find (HU anteriores)
+function listarNombres(lista) {
+  const nombres = lista.map(m => m.descripcion);
+  console.log("Nombres de movimientos:", nombres);
 }
 
-// HU2: Filtrar egresos > $100 (filter)
-function filtrarEgresosMayoresA100(listaMovimientos) {
-  const resultado = listaMovimientos
-    .filter(mov => mov.tipo === "egreso" && mov.monto > 100);
-  console.log("----- Egresos mayores a $100 -----");
-  //console.log(resultado);
-  resultado.forEach(mov => {
-  console.log(`Nombre: ${mov.nombre} | Monto: $${mov.monto}`);
-});
+function filtrarEgresosMayoresA100(lista) {
+  const filtrados = lista.filter(m => m.tipo === "egreso" && m.monto > 100);
+  console.table(filtrados);
 }
 
-// HU3: Buscar movimiento por nombre (find)
-function buscarMovimientoPorNombre(listaMovimientos, nombreBuscado) {
-  const resultado = listaMovimientos.find(mov =>
-    mov.nombre.toLowerCase() === nombreBuscado.toLowerCase());
-  if (resultado) {
-    console.log("Movimiento encontrado:", resultado);
+function buscarMovimientoPorNombre(lista, nombre) {
+  const encontrado = lista.find(m => m.descripcion.toLowerCase() === nombre.toLowerCase());
+  if (encontrado) {
+    console.log("Movimiento encontrado:", encontrado);
   } else {
-    console.log(`No se encontró un movimiento con el nombre "${nombreBuscado}".`);
+    console.log("No se encontró el movimiento.");
   }
 }
 
-// 🚀 Ejecutar todo el sistema
+// 🧪 Ejecutar flujo
 registrarMovimiento();
 mostrarResumen(movimientos);
 listarNombres(movimientos);
 filtrarEgresosMayoresA100(movimientos);
-
-// Buscar movimiento por nombre (pedimos al usuario)
-const nombreParaBuscar = prompt("¿Desea buscar un movimiento por nombre? Ingréselo o presione cancelar:");
-if (nombreParaBuscar) {
-  buscarMovimientoPorNombre(movimientos, nombreParaBuscar);
+const buscar = prompt("¿Deseas buscar un movimiento por nombre?");
+if (buscar) {
+  buscarMovimientoPorNombre(movimientos, buscar);
 }
+
